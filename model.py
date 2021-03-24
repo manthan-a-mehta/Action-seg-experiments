@@ -31,9 +31,12 @@ class SingleStageModel(nn.Module):
         self.conv_out = nn.Conv1d(num_f_maps, num_classes, 1)
 
     def forward(self, x, mask):
+        norm=2**len(self.layers)
+        i=0
         out = self.conv_1x1(x)
         for layer in self.layers:
-            out = layer(out, mask)
+          i=i+1
+          out = layer(out, mask,i,norm)
         out = self.conv_out(out) * mask[:, 0:1, :]
         return out
 
@@ -45,11 +48,11 @@ class DilatedResidualLayer(nn.Module):
         self.conv_1x1 = nn.Conv1d(out_channels, out_channels, 1)
         self.dropout = nn.Dropout()
 
-    def forward(self, x, mask):
+    def forward(self, x, mask,i,norm=512):
         out = F.relu(self.conv_dilated(x))
         out = self.conv_1x1(out)
         out = self.dropout(out)
-        return (x + out) * mask[:, 0:1, :]
+        return (x + ((out*i)/norm)) * mask[:, 0:1, :]
 
 
 class Trainer:
@@ -58,16 +61,22 @@ class Trainer:
         self.ce = nn.CrossEntropyLoss(ignore_index=-100)
         self.mse = nn.MSELoss(reduction='none')
         self.num_classes = num_classes
-
+        self.print_every=100
     def train(self, save_dir, batch_gen, num_epochs, batch_size, learning_rate, device):
         self.model.train()
         self.model.to(device)
+        # batches=batch_gen.batches
         optimizer = optim.Adam(self.model.parameters(), lr=learning_rate)
         for epoch in range(num_epochs):
+            import time
+            i=0
+            batches=batch_gen.batches
             epoch_loss = 0
             correct = 0
             total = 0
+            t1=time.perf_counter()
             while batch_gen.has_next():
+                
                 batch_input, batch_target, mask = batch_gen.next_batch(batch_size)
                 batch_input, batch_target, mask = batch_input.to(device), batch_target.to(device), mask.to(device)
                 optimizer.zero_grad()
@@ -85,7 +94,13 @@ class Trainer:
                 _, predicted = torch.max(predictions[-1].data, 1)
                 correct += ((predicted == batch_target).float()*mask[:, 0, :].squeeze(1)).sum().item()
                 total += torch.sum(mask[:, 0, :]).item()
-
+                batches=batches-1
+                print("batches left {}".format(batches))
+                i=i+1
+                if(i%self.print_every==0):
+                  print("loss after batch {} and epoch {} is ".format(epoch_loss/i,epoch+1))
+            t2=time.perf_counter()
+            print("*********Time required for epoch 1*********:{}".format(t2-t1))
             batch_gen.reset()
             torch.save(self.model.state_dict(), save_dir + "/epoch-" + str(epoch + 1) + ".model")
             torch.save(optimizer.state_dict(), save_dir + "/epoch-" + str(epoch + 1) + ".opt")
@@ -101,7 +116,7 @@ class Trainer:
             list_of_vids = file_ptr.read().split('\n')[:-1]
             file_ptr.close()
             for vid in list_of_vids:
-                print vid
+                print(vid)
                 features = np.load(features_path + vid.split('.')[0] + '.npy')
                 features = features[:, ::sample_rate]
                 input_x = torch.tensor(features, dtype=torch.float)
@@ -112,7 +127,7 @@ class Trainer:
                 predicted = predicted.squeeze()
                 recognition = []
                 for i in range(len(predicted)):
-                    recognition = np.concatenate((recognition, [actions_dict.keys()[actions_dict.values().index(predicted[i].item())]]*sample_rate))
+                    recognition = np.concatenate((recognition, [actions_dict.keys()[list(actions_dict.values()).index(predicted[i].item())]]*sample_rate))
                 f_name = vid.split('/')[-1].split('.')[0]
                 f_ptr = open(results_dir + "/" + f_name, "w")
                 f_ptr.write("### Frame level recognition: ###\n")

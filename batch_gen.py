@@ -14,6 +14,7 @@ class BatchGenerator(object):
         self.gt_path = gt_path
         self.features_path = features_path
         self.sample_rate = sample_rate
+        self.batches=0
 
     def reset(self):
         self.index = 0
@@ -24,11 +25,12 @@ class BatchGenerator(object):
             return True
         return False
 
-    def read_data(self, vid_list_file):
+    def read_data(self, vid_list_file,batch_size):
         file_ptr = open(vid_list_file, 'r')
         self.list_of_examples = file_ptr.read().split('\n')[:-1]
         file_ptr.close()
         random.shuffle(self.list_of_examples)
+        self.batches=len(self.list_of_examples)/batch_size
 
     def next_batch(self, batch_size):
         batch = self.list_of_examples[self.index:self.index + batch_size]
@@ -46,7 +48,7 @@ class BatchGenerator(object):
             batch_input .append(features[:, ::self.sample_rate])
             batch_target.append(classes[::self.sample_rate])
 
-        length_of_sequences = map(len, batch_target)
+        length_of_sequences = list(map(len, batch_target))
         batch_input_tensor = torch.zeros(len(batch_input), np.shape(batch_input[0])[0], max(length_of_sequences), dtype=torch.float)
         batch_target_tensor = torch.ones(len(batch_input), max(length_of_sequences), dtype=torch.long)*(-100)
         mask = torch.zeros(len(batch_input), self.num_classes, max(length_of_sequences), dtype=torch.float)
@@ -56,3 +58,26 @@ class BatchGenerator(object):
             mask[i, :, :np.shape(batch_target[i])[0]] = torch.ones(self.num_classes, np.shape(batch_target[i])[0])
 
         return batch_input_tensor, batch_target_tensor, mask
+# gt_path = "./data/"+"breakfast"+"/groundTruth/"
+# features_path = "./data/"+"breakfast"+"/features/"
+# sample_rate=1
+# mapping_file = "./data/"+"breakfast"+"/mapping.txt"
+
+# file_ptr = open(mapping_file, 'r')
+# actions = file_ptr.read().split('\n')[:-1]
+# file_ptr.close()
+# actions_dict = dict()
+# for a in actions:
+#     actions_dict[a.split()[1]] = int(a.split()[0])
+
+# num_classes = len(actions_dict)
+# args_dataset="breakfast"
+# args_split="1"
+# vid_list_file = "./data/"+args_dataset+"/splits/train.split"+args_split+".bundle"
+
+# obj=BatchGenerator(num_classes,actions_dict,gt_path,features_path,sample_rate)
+# obj.read_data(vid_list_file)
+# print(len(obj.list_of_examples))
+# bit,btt,mask=obj.next_batch(16)
+# print(bit)
+# print(btt)
