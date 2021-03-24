@@ -52,7 +52,7 @@ class DilatedResidualLayer(nn.Module):
         out = F.relu(self.conv_dilated(x))
         out = self.conv_1x1(out)
         out = self.dropout(out)
-        return (x + ((out*i)/norm)) * mask[:, 0:1, :]
+        return (x + out)*(i/norm) * mask[:, 0:1, :]
 
 
 class Trainer:
