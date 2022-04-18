@@ -1,0 +1,96 @@
+---------- Experiment Configuration ----------
+{'alpha': 0.05,
+ 'batch_size': 1,
+ 'boundary_th': 0.5,
+ 'ce': True,
+ 'ce_weight': 1.0,
+ 'class_weight': True,
+ 'csv_dir': './csv',
+ 'dampening': 0.0,
+ 'dataset': 'gtea',
+ 'dataset_dir': './dataset',
+ 'final_model_path': 'final_with_focal_0.05.prm',
+ 'focal': False,
+ 'focal_weight': 1.0,
+ 'gamma': 2.0,
+ 'gstmse': True,
+ 'gstmse_index': 'feature',
+ 'gstmse_weight': 1.0,
+ 'in_channel': 2048,
+ 'lambda_b': 0.1,
+ 'learning_rate': 0.0005,
+ 'max_epoch': 50,
+ 'model': 'ActionSegmentRefinementNetwork',
+ 'momentum': 0.9,
+ 'n_features': 64,
+ 'n_layers': 10,
+ 'n_stages': 4,
+ 'n_stages_asb': 4,
+ 'n_stages_brb': 4,
+ 'nesterov': True,
+ 'num_workers': 4,
+ 'optimizer': 'Adam',
+ 'param_search': False,
+ 'split': 3,
+ 'tmse': False,
+ 'tmse_weight': 0.15,
+ 'tolerance': 5,
+ 'use_focal': True,
+ 'weight_decay': 0.0001}
+---------- Loading Model ----------
+Adam will be used as an optimizer.
+focal loss used: 
+---------- Start training ----------
+/home/fish/Balaji/Documents/code/NEU-Fall2021/image_captioning/pyenv_1.13/lib/python3.6/site-packages/torch/nn/_reduction.py:43: UserWarning: size_average and reduce args will be deprecated, please use reduction='mean' instead.
+  warnings.warn(warning.format(ret))
+epoch: 0	lr: 0.0005	train loss: 0.2338
+epoch: 1	lr: 0.0005	train loss: 0.2107
+epoch: 2	lr: 0.0005	train loss: 0.1886
+epoch: 3	lr: 0.0005	train loss: 0.1637
+epoch: 4	lr: 0.0005	train loss: 0.1490
+epoch: 5	lr: 0.0005	train loss: 0.1340
+epoch: 6	lr: 0.0005	train loss: 0.1256
+epoch: 7	lr: 0.0005	train loss: 0.1126
+epoch: 8	lr: 0.0005	train loss: 0.1053
+epoch: 9	lr: 0.0005	train loss: 0.0998
+epoch: 10	lr: 0.0005	train loss: 0.0997
+epoch: 11	lr: 0.0005	train loss: 0.0895
+epoch: 12	lr: 0.0005	train loss: 0.0864
+epoch: 13	lr: 0.0005	train loss: 0.0770
+epoch: 14	lr: 0.0005	train loss: 0.0742
+epoch: 15	lr: 0.0005	train loss: 0.0727
+epoch: 16	lr: 0.0005	train loss: 0.0702
+epoch: 17	lr: 0.0005	train loss: 0.0634
+epoch: 18	lr: 0.0005	train loss: 0.0596
+epoch: 19	lr: 0.0005	train loss: 0.0621
+epoch: 20	lr: 0.0005	train loss: 0.0587
+epoch: 21	lr: 0.0005	train loss: 0.0569
+epoch: 22	lr: 0.0005	train loss: 0.0547
+epoch: 23	lr: 0.0005	train loss: 0.0581
+epoch: 24	lr: 0.0005	train loss: 0.0500
+epoch: 25	lr: 0.0005	train loss: 0.0515
+epoch: 26	lr: 0.0005	train loss: 0.0546
+epoch: 27	lr: 0.0005	train loss: 0.0544
+epoch: 28	lr: 0.0005	train loss: 0.0477
+epoch: 29	lr: 0.0005	train loss: 0.0448
+epoch: 30	lr: 0.0005	train loss: 0.0463
+epoch: 31	lr: 0.0005	train loss: 0.0467
+epoch: 32	lr: 0.0005	train loss: 0.0497
+epoch: 33	lr: 0.0005	train loss: 0.0463
+epoch: 34	lr: 0.0005	train loss: 0.0466
+epoch: 35	lr: 0.0005	train loss: 0.0437
+epoch: 36	lr: 0.0005	train loss: 0.0411
+epoch: 37	lr: 0.0005	train loss: 0.0446
+epoch: 38	lr: 0.0005	train loss: 0.0444
+epoch: 39	lr: 0.0005	train loss: 0.0403
+epoch: 40	lr: 0.0005	train loss: 0.0417
+epoch: 41	lr: 0.0005	train loss: 0.0483
+epoch: 42	lr: 0.0005	train loss: 0.0413
+epoch: 43	lr: 0.0005	train loss: 0.0389
+epoch: 44	lr: 0.0005	train loss: 0.0373
+epoch: 45	lr: 0.0005	train loss: 0.0369
+epoch: 46	lr: 0.0005	train loss: 0.0365
+epoch: 47	lr: 0.0005	train loss: 0.0341
+epoch: 48	lr: 0.0005	train loss: 0.0396
+epoch: 49	lr: 0.0005	train loss: 0.0375
+Done!

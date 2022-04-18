@@ -20,6 +20,7 @@ def train(
     optimizer: optim.Optimizer,
     epoch: int,
     device: str,
+    use_focal: bool
 ) -> float:
     losses = AverageMeter("Loss", ":.4e")
 
@@ -46,9 +47,16 @@ def train(
         if isinstance(output_cls, list):
             n = len(output_cls)
             for out in output_cls:
-                loss += criterion_cls(out, t) / n
+                if(use_focal):
+                    loss += criterion_cls(out, t) / n
+                else:
+                    loss += criterion_cls(out, t,x) / n
         else:
-            loss += criterion_cls(output_cls, t)
+            if(use_focal):
+                    loss += criterion_cls(output_cls, t) / n
+            else:
+                    loss += criterion_cls(output_cls, t,x) / n
+
 
         if isinstance(output_bound, list):
             n = len(output_bound)

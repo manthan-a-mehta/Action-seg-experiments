@@ -58,8 +58,7 @@ def main() -> None:
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
-    final_model_path=config.final_model_path
-    # final_model_path="final_model_0.5alpha.prm"
+
     # cpu or cuda
     device = "cuda" if torch.cuda.is_available() else "cpu"
     if device == "cuda":
@@ -120,7 +119,9 @@ def main() -> None:
         n_stages_asb=config.n_stages_asb,
         n_stages_brb=config.n_stages_brb,
     )
-
+    print('model: ', model)
+    exit()
+    
     # send the model to cuda/cpu
     model.to(device)
 
@@ -187,13 +188,12 @@ def main() -> None:
 
     if config.use_focal:
         print('focal loss used: ')
-        final_model_path=config.final_model_path
         criterion_cls = FocalLoss(
             size_average =True,
             batch_average=True,
             ignore_index= 255,
-            gamma= config.gamma,
-            alpha=config.alpha,
+            gamma= 2.0,
+            alpha=0.25,
         )
 
     pos_weight = get_pos_weight(
@@ -219,7 +219,7 @@ def main() -> None:
             config.lambda_b,
             optimizer,
             epoch,
-            device,config.use_focal
+            device,
         )
 
         # if you do validation to determine hyperparams
@@ -304,7 +304,7 @@ def main() -> None:
     os.remove(os.path.join(result_path, "checkpoint.pth"))
 
     # save models
-    torch.save(model.state_dict(), os.path.join(result_path, final_model_path))
+    torch.save(model.state_dict(), os.path.join(result_path, "final_model.prm"))
 
     print("Done!")
 

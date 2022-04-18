@@ -1,0 +1,61 @@
+---------- Experiment Configuration ----------
+{'alpha': 0.05,
+ 'batch_size': 1,
+ 'boundary_th': 0.5,
+ 'ce': True,
+ 'ce_weight': 1.0,
+ 'class_weight': True,
+ 'csv_dir': './csv',
+ 'dampening': 0.0,
+ 'dataset': '50salads',
+ 'dataset_dir': './dataset',
+ 'final_model_path': 'final_with_focal_0.05_prm',
+ 'focal': False,
+ 'focal_weight': 1.0,
+ 'gamma': 2.0,
+ 'gstmse': True,
+ 'gstmse_index': 'feature',
+ 'gstmse_weight': 1.0,
+ 'in_channel': 2048,
+ 'lambda_b': 0.1,
+ 'learning_rate': 0.0005,
+ 'max_epoch': 50,
+ 'model': 'ActionSegmentRefinementNetwork',
+ 'momentum': 0.9,
+ 'n_features': 64,
+ 'n_layers': 10,
+ 'n_stages': 4,
+ 'n_stages_asb': 4,
+ 'n_stages_brb': 4,
+ 'nesterov': True,
+ 'num_workers': 4,
+ 'optimizer': 'Adam',
+ 'param_search': False,
+ 'split': 3,
+ 'tmse': False,
+ 'tmse_weight': 0.15,
+ 'tolerance': 5,
+ 'use_focal': True,
+ 'weight_decay': 0.0001}
+---------- Loading Model ----------
+Adam will be used as an optimizer.
+focal loss used: 
+---------- Start training ----------
+/home/fish/Balaji/Documents/code/NEU-Fall2021/image_captioning/pyenv_1.13/lib/python3.6/site-packages/torch/nn/_reduction.py:43: UserWarning: size_average and reduce args will be deprecated, please use reduction='mean' instead.
+  warnings.warn(warning.format(ret))
+epoch: 0	lr: 0.0005	train loss: 0.3119
+epoch: 1	lr: 0.0005	train loss: 0.2476
+epoch: 2	lr: 0.0005	train loss: 0.2015
+epoch: 3	lr: 0.0005	train loss: 0.1787
+epoch: 4	lr: 0.0005	train loss: 0.1544
+epoch: 5	lr: 0.0005	train loss: 0.1375
+epoch: 6	lr: 0.0005	train loss: 0.1135
+epoch: 7	lr: 0.0005	train loss: 0.1439
+epoch: 8	lr: 0.0005	train loss: 0.1112
+epoch: 9	lr: 0.0005	train loss: 0.0968
+epoch: 10	lr: 0.0005	train loss: 0.0998
+epoch: 11	lr: 0.0005	train loss: 0.0858
+epoch: 12	lr: 0.0005	train loss: 0.0783
+epoch: 13	lr: 0.0005	train loss: 0.0735
+epoch: 14	lr: 0.0005	train loss: 0.0732
+epoch: 15	lr: 0.0005	train loss: 0.0675

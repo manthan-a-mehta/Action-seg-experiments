@@ -20,12 +20,14 @@ class Config:
     ce: bool = True  # cross entropy
     ce_weight: float = 1.0
 
-    use_focal: bool = True
+    use_focal: bool = False
     focal: bool = False
     focal_weight: float = 1.0
-
+    gamma: float=2.0
     tmse: bool = False  # temporal mse
     tmse_weight: float = 0.15
+    alpha:float=0.25
+    final_model_path: str="final_model.prm"
 
     gstmse: bool = True  # gaussian similarity loss
     gstmse_weight: float = 1.0

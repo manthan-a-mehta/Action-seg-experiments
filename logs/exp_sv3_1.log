@@ -1,0 +1,90 @@
+---------- Experiment Configuration ----------
+{'batch_size': 1,
+ 'boundary_th': 0.5,
+ 'ce': True,
+ 'ce_weight': 1.0,
+ 'class_weight': True,
+ 'csv_dir': './csv',
+ 'dampening': 0.0,
+ 'dataset': 'breakfast',
+ 'dataset_dir': './dataset',
+ 'focal': False,
+ 'focal_weight': 1.0,
+ 'gstmse': True,
+ 'gstmse_index': 'feature',
+ 'gstmse_weight': 1.0,
+ 'in_channel': 2048,
+ 'lambda_b': 0.1,
+ 'learning_rate': 0.0005,
+ 'max_epoch': 50,
+ 'model': 'ActionSegmentRefinementNetwork',
+ 'momentum': 0.9,
+ 'n_features': 64,
+ 'n_layers': 10,
+ 'n_stages': 4,
+ 'n_stages_asb': 4,
+ 'n_stages_brb': 4,
+ 'nesterov': True,
+ 'num_workers': 4,
+ 'optimizer': 'Adam',
+ 'param_search': False,
+ 'split': 1,
+ 'tmse': False,
+ 'tmse_weight': 0.15,
+ 'tolerance': 5,
+ 'use_focal': False,
+ 'weight_decay': 0.0001}
+---------- Loading Model ----------
+Adam will be used as an optimizer.
+---------- Start training ----------
+epoch: 0	lr: 0.0005	train loss: 3.1584
+epoch: 1	lr: 0.0005	train loss: 2.2966
+epoch: 2	lr: 0.0005	train loss: 1.8797
+epoch: 3	lr: 0.0005	train loss: 1.6433
+epoch: 4	lr: 0.0005	train loss: 1.4677
+epoch: 5	lr: 0.0005	train loss: 1.3301
+epoch: 6	lr: 0.0005	train loss: 1.2214
+epoch: 7	lr: 0.0005	train loss: 1.1688
+epoch: 8	lr: 0.0005	train loss: 1.0746
+epoch: 9	lr: 0.0005	train loss: 0.9941
+epoch: 10	lr: 0.0005	train loss: 0.9945
+epoch: 11	lr: 0.0005	train loss: 0.9709
+epoch: 12	lr: 0.0005	train loss: 0.8637
+epoch: 13	lr: 0.0005	train loss: 0.9578
+epoch: 14	lr: 0.0005	train loss: 0.7902
+epoch: 15	lr: 0.0005	train loss: 0.8436
+epoch: 16	lr: 0.0005	train loss: 0.7480
+epoch: 17	lr: 0.0005	train loss: 0.7918
+epoch: 18	lr: 0.0005	train loss: 0.6868
+epoch: 19	lr: 0.0005	train loss: 0.7048
+epoch: 20	lr: 0.0005	train loss: 0.6325
+epoch: 21	lr: 0.0005	train loss: 0.6777
+epoch: 22	lr: 0.0005	train loss: 0.6431
+epoch: 23	lr: 0.0005	train loss: 0.6532
+epoch: 24	lr: 0.0005	train loss: 0.6223
+epoch: 25	lr: 0.0005	train loss: 0.5852
+epoch: 26	lr: 0.0005	train loss: 0.5738
+epoch: 27	lr: 0.0005	train loss: 0.5618
+epoch: 28	lr: 0.0005	train loss: 0.5715
+epoch: 29	lr: 0.0005	train loss: 0.6245
+epoch: 30	lr: 0.0005	train loss: 0.5808
+epoch: 31	lr: 0.0005	train loss: 0.4690
+epoch: 32	lr: 0.0005	train loss: 0.6041
+epoch: 33	lr: 0.0005	train loss: 0.4576
+epoch: 34	lr: 0.0005	train loss: 0.5044
+epoch: 35	lr: 0.0005	train loss: 0.5528
+epoch: 36	lr: 0.0005	train loss: 0.4388
+epoch: 37	lr: 0.0005	train loss: 0.5343
+epoch: 38	lr: 0.0005	train loss: 0.4604
+epoch: 39	lr: 0.0005	train loss: 0.4065
+epoch: 40	lr: 0.0005	train loss: 0.5239
+epoch: 41	lr: 0.0005	train loss: 0.4726
+epoch: 42	lr: 0.0005	train loss: 0.4606
+epoch: 43	lr: 0.0005	train loss: 0.4658
+epoch: 44	lr: 0.0005	train loss: 0.5032
+epoch: 45	lr: 0.0005	train loss: 0.3824
+epoch: 46	lr: 0.0005	train loss: 0.4965
+epoch: 47	lr: 0.0005	train loss: 0.3935
+epoch: 48	lr: 0.0005	train loss: 0.4009
+epoch: 49	lr: 0.0005	train loss: 0.4378
+Done!

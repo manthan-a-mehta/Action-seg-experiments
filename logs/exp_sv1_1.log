@@ -32,109 +32,59 @@
  'tmse': False,
  'tmse_weight': 0.15,
  'tolerance': 5,
+ 'use_focal': False,
  'weight_decay': 0.0001}
 ---------- Loading Model ----------
 Adam will be used as an optimizer.
 ---------- Start training ----------
-0
 epoch: 0	lr: 0.0005	train loss: 3.0883
-1
 epoch: 1	lr: 0.0005	train loss: 2.6640
-2
 epoch: 2	lr: 0.0005	train loss: 2.2355
-3
 epoch: 3	lr: 0.0005	train loss: 2.0617
-4
 epoch: 4	lr: 0.0005	train loss: 1.6605
-5
 epoch: 5	lr: 0.0005	train loss: 1.4327
-6
 epoch: 6	lr: 0.0005	train loss: 1.3094
-7
 epoch: 7	lr: 0.0005	train loss: 1.1804
-8
 epoch: 8	lr: 0.0005	train loss: 1.0929
-9
 epoch: 9	lr: 0.0005	train loss: 0.9704
-10
 epoch: 10	lr: 0.0005	train loss: 0.8701
-11
 epoch: 11	lr: 0.0005	train loss: 0.8477
-12
 epoch: 12	lr: 0.0005	train loss: 0.8506
-13
 epoch: 13	lr: 0.0005	train loss: 0.7487
-14
 epoch: 14	lr: 0.0005	train loss: 0.7405
-15
 epoch: 15	lr: 0.0005	train loss: 0.6531
-16
 epoch: 16	lr: 0.0005	train loss: 0.6108
-17
 epoch: 17	lr: 0.0005	train loss: 0.5596
-18
 epoch: 18	lr: 0.0005	train loss: 0.5462
-19
 epoch: 19	lr: 0.0005	train loss: 0.5071
-20
 epoch: 20	lr: 0.0005	train loss: 0.4956
-21
 epoch: 21	lr: 0.0005	train loss: 0.6247
-22
 epoch: 22	lr: 0.0005	train loss: 0.5352
-23
 epoch: 23	lr: 0.0005	train loss: 0.4627
-24
 epoch: 24	lr: 0.0005	train loss: 0.4825
-25
 epoch: 25	lr: 0.0005	train loss: 0.4964
-26
 epoch: 26	lr: 0.0005	train loss: 0.6232
-27
 epoch: 27	lr: 0.0005	train loss: 0.5402
-28
 epoch: 28	lr: 0.0005	train loss: 0.4508
-29
 epoch: 29	lr: 0.0005	train loss: 0.4086
-30
 epoch: 30	lr: 0.0005	train loss: 0.4138
-31
 epoch: 31	lr: 0.0005	train loss: 0.3722
-32
 epoch: 32	lr: 0.0005	train loss: 0.3382
-33
 epoch: 33	lr: 0.0005	train loss: 0.3168
-34
 epoch: 34	lr: 0.0005	train loss: 0.3359
-35
 epoch: 35	lr: 0.0005	train loss: 0.3309
-36
 epoch: 36	lr: 0.0005	train loss: 0.3828
-37
 epoch: 37	lr: 0.0005	train loss: 0.3681
-38
 epoch: 38	lr: 0.0005	train loss: 0.3172
-39
 epoch: 39	lr: 0.0005	train loss: 0.3069
-40
 epoch: 40	lr: 0.0005	train loss: 0.2749
-41
 epoch: 41	lr: 0.0005	train loss: 0.2580
-42
 epoch: 42	lr: 0.0005	train loss: 0.2531
-43
 epoch: 43	lr: 0.0005	train loss: 0.3054
-44
 epoch: 44	lr: 0.0005	train loss: 0.2453
-45
 epoch: 45	lr: 0.0005	train loss: 0.2310
-46
 epoch: 46	lr: 0.0005	train loss: 0.2356
-47
 epoch: 47	lr: 0.0005	train loss: 0.2472
-48
 epoch: 48	lr: 0.0005	train loss: 0.2522
-49
 epoch: 49	lr: 0.0005	train loss: 0.2470
 Done!
-
