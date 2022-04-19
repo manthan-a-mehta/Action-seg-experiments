@@ -111,7 +111,7 @@ def main() -> None:
 
     n_classes = get_n_classes(config.dataset, dataset_dir=config.dataset_dir)
 
-    model = models.ActionSegmentRefinementFramework(
+    model = models.ActionSegmentRefinementFrameworkpp(
         in_channel=config.in_channel,
         n_features=config.n_features,
         n_classes=n_classes,

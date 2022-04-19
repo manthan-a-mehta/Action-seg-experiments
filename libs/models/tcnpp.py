@@ -221,7 +221,7 @@ class EDTCN(nn.Module):
                     torch.nn.init.zeros_(m.bias)
 
 
-class ActionSegmentRefinementFramework(nn.Module):
+class ActionSegmentRefinementFrameworkpp(nn.Module):
     """
     this model predicts both frame-level classes and boundaries.
     Args:
@@ -256,7 +256,7 @@ class ActionSegmentRefinementFramework(nn.Module):
         #     for i in range(n_layers)
         # ]
         self.conv_dilated_1 = nn.ModuleList((
-            nn.Conv1d(n_features, n_features, 3, padding=2**(num_layers-1-i), dilation=2**(num_layers-1-i))
+            nn.Conv1d(n_features, n_features, 3, padding=2**(n_layers-1-i), dilation=2**(n_layers-1-i))
             for i in range(n_layers)
         ))
 

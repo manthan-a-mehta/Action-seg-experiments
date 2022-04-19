@@ -3,8 +3,9 @@ from typing import Any
 import torch.nn as nn
 
 from .tcn import EDTCN, ActionSegmentRefinementFramework, MultiStageTCN, SingleStageTCN
+from .tcnpp import ActionSegmentRefinementFrameworkpp
 
-__all__ = ["get_model", "ActionSegmentRefinementFramework"]
+__all__ = ["get_model", "ActionSegmentRefinementFramework","ActionSegmentRefinementFrameworkpp"]
 
 model_names = ["ms-tcn", "ss-tcn", "ed-tcn"]
 
