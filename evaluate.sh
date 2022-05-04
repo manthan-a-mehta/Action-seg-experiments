@@ -1,6 +1,6 @@
-VERSION=sv16
-DS=gtea #breakfast 50salads gtea
-SP=4
+VERSION=vanilla_asrf_30
+DS=50salads #breakfast 50salads gtea
+SP=1
 ID=2
 LOGFILE=logs/eval_${VERSION}_${SP}.log
 

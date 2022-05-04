@@ -6,8 +6,9 @@ import torch.nn as nn
 
 from .focal import FocalLoss
 from .tmse import TMSE, GaussianSimilarityTMSE
+from .video_loss import video_loss
 
-__all__ = ["ActionSegmentationLoss", "BoundaryRegressionLoss"]
+__all__ = ["ActionSegmentationLoss", "BoundaryRegressionLoss","video_loss"]
 
 
 class ActionSegmentationLoss(nn.Module):

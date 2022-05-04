@@ -103,7 +103,7 @@ def main():
     if args.model is not None:
         state_dict = torch.load(args.model)
     else:
-        state_dict = torch.load(os.path.join(result_path, "final_with_focal_0.05.prm"))
+        state_dict = torch.load(os.path.join(result_path, "final_model.prm"))
     model.load_state_dict(state_dict)
 
     # train and validate model

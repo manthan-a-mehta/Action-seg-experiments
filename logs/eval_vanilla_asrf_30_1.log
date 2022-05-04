@@ -1,0 +1,53 @@
+---------- Experiment Configuration ----------
+{'alpha': 0.05,
+ 'batch_size': 1,
+ 'boundary_th': 0.5,
+ 'ce': True,
+ 'ce_weight': 1.0,
+ 'class_weight': True,
+ 'csv_dir': './csv',
+ 'dampening': 0.0,
+ 'dataset': '50salads',
+ 'dataset_dir': './dataset',
+ 'final_model_path': 'final_model.prm',
+ 'focal': False,
+ 'focal_weight': 1.0,
+ 'gamma': 2.0,
+ 'gstmse': True,
+ 'gstmse_index': 'feature',
+ 'gstmse_weight': 1.0,
+ 'in_channel': 2048,
+ 'lambda_b': 0.1,
+ 'learning_rate': 0.0005,
+ 'max_epoch': 50,
+ 'model': 'ActionSegmentRefinementNetwork',
+ 'momentum': 0.9,
+ 'n_features': 64,
+ 'n_layers': 10,
+ 'n_stages': 4,
+ 'n_stages_asb': 4,
+ 'n_stages_brb': 4,
+ 'nesterov': True,
+ 'num_workers': 4,
+ 'optimizer': 'Adam',
+ 'param_search': False,
+ 'split': 1,
+ 'tmse': False,
+ 'tmse_weight': 0.15,
+ 'tolerance': 5,
+ 'use_focal': False,
+ 'weight_decay': 0.0001}
+---------- Loading Model ----------
+---------- Start testing ----------
+/home/balaji/manthan/asrf_video_loss/libs/transformer.py:25: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  boundary[idx // self.downsamp_rate] = 1.0
+/home/balaji/manthan/asrf_video_loss/libs/transformer.py:25: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  boundary[idx // self.downsamp_rate] = 1.0
+/home/balaji/manthan/asrf_video_loss/libs/transformer.py:25: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  boundary[idx // self.downsamp_rate] = 1.0
+/home/balaji/manthan/asrf_video_loss/libs/transformer.py:25: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  boundary[idx // self.downsamp_rate] = 1.0
+Before refinement: (69.17164241863594, 53.21832074356596, [59.92646585646932, 58.0882305623517, 49.9999952682341])
+Boundary scores: (99.17248339079977, 22.63056092843327, 55.980861244019145, 32.23140085858638)
+After refinement: (70.10007568749474, 65.10422069666922, [72.8538233108137, 69.60556345002485, 63.10904372844717])
+Done

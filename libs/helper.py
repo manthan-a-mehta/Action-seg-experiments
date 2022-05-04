@@ -20,7 +20,7 @@ def train(
     optimizer: optim.Optimizer,
     epoch: int,
     device: str,
-    use_focal: bool
+    use_focal: bool,criterion_video_loss=0
 ) -> float:
     losses = AverageMeter("Loss", ":.4e")
 
@@ -47,6 +47,7 @@ def train(
         if isinstance(output_cls, list):
             n = len(output_cls)
             for out in output_cls:
+                loss+=criterion_video_loss(t,out)
                 if(use_focal):
                     loss += criterion_cls(out, t) / n
                 else:
@@ -80,6 +81,7 @@ def validate(
     model: nn.Module,
     criterion_cls: nn.Module,
     criterion_bound: nn.Module,
+    criterion_video_loss:nn.Module,
     lambda_bound_loss: float,
     device: str,
     dataset: str,
@@ -120,6 +122,7 @@ def validate(
             loss = 0.0
             loss += criterion_cls(output_cls, t, x)
             loss += criterion_bound(output_bound, b, mask)
+            loss+=criterion_video_loss(t,output_cls)
 
             # measure accuracy and record loss
             losses.update(loss.item(), batch_size)

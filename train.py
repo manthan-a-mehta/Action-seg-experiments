@@ -14,9 +14,11 @@ from libs.class_weight import get_class_weight, get_pos_weight
 from libs.config import get_config
 from libs.dataset import ActionSegmentationDataset, collate_fn
 from libs.helper import train, validate
-from libs.loss_fn import ActionSegmentationLoss, BoundaryRegressionLoss
+from libs.loss_fn import ActionSegmentationLoss, BoundaryRegressionLoss,video_loss
 from libs.optimizer import get_optimizer
 from libs.transformer import TempDownSamp, ToTensor
+# /home/balaji/Documents/code/RSL/ms-tcn-org/data/
+
 
 
 def get_arguments() -> argparse.Namespace:
@@ -171,6 +173,7 @@ def main() -> None:
         class_weight = class_weight.to(device)
     else:
         class_weight = None
+    criterion_video_loss=video_loss()
 
     criterion_cls = ActionSegmentationLoss(
         ce=config.ce,
@@ -183,6 +186,7 @@ def main() -> None:
         focal_weight=config.focal_weight,
         tmse_weight=config.tmse_weight,
         gstmse_weight=config.gstmse,
+
     )
 
     if config.use_focal:
@@ -219,7 +223,7 @@ def main() -> None:
             config.lambda_b,
             optimizer,
             epoch,
-            device,config.use_focal
+            device,config.use_focal,criterion_video_loss
         )
 
         # if you do validation to determine hyperparams
@@ -238,6 +242,7 @@ def main() -> None:
                 model,
                 criterion_cls,
                 criterion_bound,
+                criterion_video_loss,
                 config.lambda_b,
                 device,
                 config.dataset,

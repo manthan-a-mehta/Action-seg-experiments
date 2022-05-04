@@ -1,0 +1,45 @@
+---------- Experiment Configuration ----------
+{'alpha': 0.05,
+ 'batch_size': 1,
+ 'boundary_th': 0.5,
+ 'ce': True,
+ 'ce_weight': 1.0,
+ 'class_weight': True,
+ 'csv_dir': './csv',
+ 'dampening': 0.0,
+ 'dataset': 'gtea',
+ 'dataset_dir': './dataset',
+ 'final_model_path': 'only_vanilla_asrf.prm',
+ 'focal': False,
+ 'focal_weight': 1.0,
+ 'gamma': 2.0,
+ 'gstmse': True,
+ 'gstmse_index': 'feature',
+ 'gstmse_weight': 1.0,
+ 'in_channel': 2048,
+ 'lambda_b': 0.1,
+ 'learning_rate': 0.0005,
+ 'max_epoch': 50,
+ 'model': 'ActionSegmentRefinementNetwork',
+ 'momentum': 0.9,
+ 'n_features': 64,
+ 'n_layers': 10,
+ 'n_stages': 4,
+ 'n_stages_asb': 4,
+ 'n_stages_brb': 4,
+ 'nesterov': True,
+ 'num_workers': 4,
+ 'optimizer': 'Adam',
+ 'param_search': False,
+ 'split': 1,
+ 'tmse': False,
+ 'tmse_weight': 0.15,
+ 'tolerance': 5,
+ 'use_focal': False,
+ 'weight_decay': 0.0001}
+---------- Loading Model ----------
+---------- Start testing ----------
+Before refinement: (74.28100987925357, 77.36652236652237, [86.34685847197098, 81.18080681145439, 64.20663706975705])
+Boundary scores: (97.6728869374314, 50.59288537549407, 59.53488372093023, 54.70084973381957)
+After refinement: (74.64324917672887, 72.89682539682539, [85.48386598855387, 79.0322530853281, 62.09676921436045])
+Done
