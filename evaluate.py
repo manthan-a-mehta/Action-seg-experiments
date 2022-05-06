@@ -11,6 +11,8 @@ from libs.config import get_config
 from libs.dataset import ActionSegmentationDataset, collate_fn
 from libs.helper import evaluate
 from libs.transformer import TempDownSamp, ToTensor
+from datetime import datetime
+
 
 
 def get_arguments():
@@ -86,7 +88,7 @@ def main():
     print("---------- Loading Model ----------")
 
     n_classes = get_n_classes(config.dataset, dataset_dir=config.dataset_dir)
-    model = models.ActionSegmentRefinementFramework(
+    model = models.ActionSegmentRefinementFramework_all(
         in_channel=config.in_channel,
         n_features=config.n_features,
         n_classes=n_classes,
@@ -103,11 +105,15 @@ def main():
     if args.model is not None:
         state_dict = torch.load(args.model)
     else:
-        state_dict = torch.load(os.path.join(result_path, "final_with_focal_0.05.prm"))
+        state_dict = torch.load(os.path.join(result_path, "asrf_allwt_pg.prm"))
     model.load_state_dict(state_dict)
 
     # train and validate model
     print("---------- Start testing ----------")
+    now = datetime.now()
+
+    current_time = now.strftime("%H:%M:%S")
+    print("Created at",current_time)
 
     # evaluation
     evaluate(

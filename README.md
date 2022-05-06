@@ -1,7 +1,3 @@
-# Alleviating Over-segmentation Errors by Detecting Action Boundaries
-
-This repo is the official implementation of [Y. Ishikawa et al. "Alleviating Over-segmentation Errors by Detecting Action Boundaries" in WACV 2021](https://arxiv.org/abs/2007.06866).
-
 ## Dataset
 
 GTEA, 50Salads, Breakfast  
@@ -94,17 +90,17 @@ Please run the following command. `[DATASET_DIR]` is the path to your dataset di
 
     Please see `libs/config.py` about configurations.
 
-1. You can train and evaluate models specifying a configuration file generated in the above process like:
+1. You can train and evaluate models specifying a configuration file generated in the above process like. In evaluate.py make sure to change the model path which is the same as the model name in config.yaml
 
     ```bash
     python train.py ./result/50salads/dataset-50salads_split-1/config.yaml
-    python evaluate.py ./result/50salads/dataset-50salads_split-1/config.yaml test
+    python evaluate.py ./result/50salads/dataset-50salads_split-1/config.yaml 
     ```
 
 1. You can also save model predictions as numpy array by running:
 
     ```bash
-    python save_pred.py ./result/50salads/dataset-50salads_split-1/config.yaml test
+    python save_pred.py ./result/50salads/dataset-50salads_split-1/config.yaml 
     ```
 
 1. If you want to visualize the saved model predictions, please run:
@@ -113,21 +109,9 @@ Please run the following command. `[DATASET_DIR]` is the path to your dataset di
     python utils/convert_arr2img.py ./result/50salads/dataset-50salads_split1/predictions
     ```
 
-## License
 
-This repository is released under the MIT License.
 
-## Citation
 
-```citation
-Yuchi Ishikawa, Seito Kasai, Yoshimitsu Aoki, Hirokatsu Kataoka,
-"Alleviating Over-segmentation Errors by Detecting Action Boundaries"
-in WACV 2021
-```
 
-You can see the paper in [arXiv](https://arxiv.org/abs/2007.06866)
 
-## Reference
 
-* Colin Lea et al., "Temporal Convolutional Networks for Action Segmentation and Detection", in CVPR2017 ([paper](http://zpascal.net/cvpr2017/Lea_Temporal_Convolutional_Networks_CVPR_2017_paper.pdf))
-* Yazan Abu Farha et al., "MS-TCN: Multi-Stage Temporal Convolutional Network for Action Segmentation", in CVPR2019 ([paper](http://openaccess.thecvf.com/content_CVPR_2019/papers/Abu_Farha_MS-TCN_Multi-Stage_Temporal_Convolutional_Network_for_Action_Segmentation_CVPR_2019_paper.pdf), [code](https://github.com/yabufarha/ms-tcn))

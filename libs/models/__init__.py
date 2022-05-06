@@ -3,11 +3,10 @@ from typing import Any
 import torch.nn as nn
 
 from .tcn import EDTCN, ActionSegmentRefinementFramework, MultiStageTCN, SingleStageTCN
-
-__all__ = ["get_model", "ActionSegmentRefinementFramework"]
+from .tcnpp import ActionSegmentRefinementFramework_stempg, ActionSegmentRefinementFramework_branchpg, ActionSegmentRefinementFramework_all
+__all__ = ["get_model", "ActionSegmentRefinementFramework","ActionSegmentRefinementFramework_stempg", "ActionSegmentRefinementFramework_branchpg", "ActionSegmentRefinementFramework_all"]
 
 model_names = ["ms-tcn", "ss-tcn", "ed-tcn"]
-
 
 def get_as_model(model_name: str, **kwargs: Any) -> nn.Module:
     model_name = model_name.lower()

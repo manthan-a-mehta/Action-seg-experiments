@@ -45,6 +45,7 @@ def get_arguments() -> argparse.Namespace:
 
 
 def main() -> None:
+
     # argparser
     args = get_arguments()
 
@@ -59,6 +60,7 @@ def main() -> None:
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     final_model_path=config.final_model_path
+
     # final_model_path="final_model_0.5alpha.prm"
     # cpu or cuda
     device = "cuda" if torch.cuda.is_available() else "cpu"

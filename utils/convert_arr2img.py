@@ -29,10 +29,18 @@ def convert_arr2img(arr: np.ndarray, palette: List[int]) -> Image.Image:
         arr: 1d array(T, )
         palette: color palette
     """
+    # pal=np.array(palette)
+    # answer=pal[arr]
+    # print(answer)
     arr = arr.astype(np.uint8)
+    
+    # print(palette)
+
     arr = np.tile(arr, (100, 1))
     img = Image.fromarray(arr)
     img = img.convert("P")
+    
+    # print((palette))
     img.putpalette(palette)
 
     return img
@@ -44,12 +52,18 @@ def main() -> None:
     voc = Image.open("./imgs/voc_sample.png")
     voc = voc.convert("P")
     palette = voc.getpalette()
-
-    arr_paths = glob.glob(os.path.join(args.dir, "*.npy"))
-
+    # arr_paths = glob.glob(os.path.join(args.dir, "*.npy"))
+    arr_paths=[]
+    for i in os.listdir(args.dir):
+    # List files with .py
+        if i.endswith(".npy"):
+            arr_paths.append(i)
+    # print(arr_paths)
     for path in arr_paths:
+        print(path)
         name = os.path.basename(path)[:-4]  # remove .npy
-        arr = np.load(path)
+        arr = np.load(args.dir+"/"+path)
+        print(arr)
 
         img = convert_arr2img(arr, palette)
         img.save(os.path.join(args.dir, name + ".png"))

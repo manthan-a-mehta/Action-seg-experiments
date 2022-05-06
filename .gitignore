@@ -4,3 +4,12 @@
 /result
 data.zip
 /*/__pycache__
+*.jpg
+*.PNG
+*.png
+*.sh
+/videos
+/scripts
+analyse.py
+/logs
+exp_train.py

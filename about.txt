@@ -1,0 +1,3 @@
+This folder contains the asrf code with running and results. I trained using focal loss and using the asrf with mstcn++
+
+Generated visuals and videos.

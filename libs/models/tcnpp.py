@@ -7,6 +7,48 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+class Prediction_Generation_wt(nn.Module):
+    def __init__(self, in_channel, n_features, n_features1, n_features2, num_classes, num_layers):
+        super(Prediction_Generation_wt, self).__init__()
+
+        self.num_layers = num_layers
+        
+        self.conv_1x1_in = nn.Conv1d(in_channel, n_features, 1)
+
+        print("n_features: ", n_features, " n_features1: ", n_features1, " n_features2: ", n_features2)
+
+        self.conv_dilated_1 = nn.ModuleList((
+            nn.Conv1d(n_features, n_features1, 3, padding=2**(num_layers-1-i), dilation=2**(num_layers-1-i))
+            for i in range(self.num_layers)
+        ))
+
+        self.conv_dilated_2 = nn.ModuleList((
+            nn.Conv1d(n_features, n_features2, 3, padding=2**i, dilation=2**i)
+            for i in range(self.num_layers)
+        ))
+
+        self.conv_fusion = nn.ModuleList((
+             nn.Conv1d(2*n_features, n_features, 1)
+             for i in range(self.num_layers)
+        ))
+
+        self.dropout = nn.Dropout()
+        self.conv_out = nn.Conv1d(n_features, num_classes, 1)
+
+    def forward(self, x, fc=True):
+
+        f = self.conv_1x1_in(x)
+        for i in range(self.num_layers):
+            f_in = f
+            f = self.conv_fusion[i](torch.cat([self.conv_dilated_1[i](f), self.conv_dilated_2[i](f)], 1))
+            f = F.relu(f)
+            f = self.dropout(f)
+            f = f + f_in
+
+        if fc:
+            f = self.conv_out(f)
+
+        return f
 
 class MultiStageTCN(nn.Module):
     """
@@ -221,7 +263,7 @@ class EDTCN(nn.Module):
                     torch.nn.init.zeros_(m.bias)
 
 
-class ActionSegmentRefinementFramework(nn.Module):
+class ActionSegmentRefinementFramework_stempg(nn.Module):
     """
     this model predicts both frame-level classes and boundaries.
     Args:
@@ -242,6 +284,8 @@ class ActionSegmentRefinementFramework(nn.Module):
         n_stages_brb: Optional[int] = None,
         **kwargs: Any
     ) -> None:
+
+        print("Using PG in stem")
         self.num_layers=n_layers
         if not isinstance(n_stages_asb, int):
             n_stages_asb = n_stages
@@ -256,7 +300,7 @@ class ActionSegmentRefinementFramework(nn.Module):
         #     for i in range(n_layers)
         # ]
         self.conv_dilated_1 = nn.ModuleList((
-            nn.Conv1d(n_features, n_features, 3, padding=2**(num_layers-1-i), dilation=2**(num_layers-1-i))
+            nn.Conv1d(n_features, n_features, 3, padding=2**(self.num_layers-1-i), dilation=2**(self.num_layers-1-i))
             for i in range(n_layers)
         ))
 
@@ -292,6 +336,208 @@ class ActionSegmentRefinementFramework(nn.Module):
         self.activation_brb = nn.Sigmoid()
 
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        out = self.conv_in(x)
+        for i in range(self.num_layers):
+            f_in = out
+            f = self.conv_fusion[i](torch.cat([self.conv_dilated_1[i](out), self.conv_dilated_2[i](out)], 1))
+            f = F.relu(f)
+            f = self.dropout(f)
+            out = f + f_in
+
+        out_cls = self.conv_cls(out)
+        out_bound = self.conv_bound(out)
+
+        if self.training:
+            outputs_cls = [out_cls]
+            outputs_bound = [out_bound]
+
+            for as_stage in self.asb:
+                out_cls = as_stage(self.activation_asb(out_cls))
+                outputs_cls.append(out_cls)
+
+            for br_stage in self.brb:
+                out_bound = br_stage(self.activation_brb(out_bound))
+                outputs_bound.append(out_bound)
+
+            return (outputs_cls, outputs_bound)
+        else:
+            for as_stage in self.asb:
+                out_cls = as_stage(self.activation_asb(out_cls))
+
+            for br_stage in self.brb:
+                out_bound = br_stage(self.activation_brb(out_bound))
+
+            return (out_cls, out_bound)
+
+class ActionSegmentRefinementFramework_branchpg(nn.Module):
+    """
+    this model predicts both frame-level classes and boundaries.
+    Args:
+        in_channel: 2048
+        n_feature: 64
+        n_classes: the number of action classes
+        n_layers: 10
+    """
+
+    def __init__(
+        self,
+        in_channel: int,
+        n_features: int,
+        n_classes: int,
+        n_stages: int,
+        n_layers: int,
+        n_stages_asb: Optional[int] = None,
+        n_stages_brb: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+
+        print("Using PG in branch")
+        self.num_layers=n_layers
+        if not isinstance(n_stages_asb, int):
+            n_stages_asb = n_stages
+
+        if not isinstance(n_stages_brb, int):
+            n_stages_brb = n_stages
+
+        super().__init__()
+        self.conv_in = nn.Conv1d(in_channel, n_features, 1)
+        shared_layers = [
+            DilatedResidualLayer(2 ** i, n_features, n_features)
+            for i in range(n_layers)
+        ]
+
+        self.shared_layers = nn.ModuleList(shared_layers)
+        self.conv_cls = nn.Conv1d(n_features, n_classes, 1)
+        self.conv_bound = nn.Conv1d(n_features, 1, 1)
+        
+        self.conv_out = nn.Conv1d(n_features,n_classes, 1)
+        # action segmentation branch
+
+        n_features1 = n_features
+        n_features2 = n_features
+        asb = [
+            Prediction_Generation_wt(n_classes, n_features, n_features1, n_features2, n_classes, n_layers)
+            for _ in range(n_stages_asb - 1)
+        ]
+
+        # boundary regression branch
+        brb = [
+            Prediction_Generation_wt(1, n_features, n_features1, n_features2, 1, n_layers) for _ in range(n_stages_brb - 1)
+        ]
+
+        self.asb = nn.ModuleList(asb)
+        self.brb = nn.ModuleList(brb)
+
+        self.activation_asb = nn.Softmax(dim=1)
+        self.activation_brb = nn.Sigmoid()
+
+    def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        out = self.conv_in(x)
+        for layer in self.shared_layers:
+            out = layer(out)
+
+        out_cls = self.conv_cls(out)
+        out_bound = self.conv_bound(out)
+
+        if self.training:
+            outputs_cls = [out_cls]
+            outputs_bound = [out_bound]
+
+            for as_stage in self.asb:
+                out_cls = as_stage(self.activation_asb(out_cls))
+                outputs_cls.append(out_cls)
+
+            for br_stage in self.brb:
+                out_bound = br_stage(self.activation_brb(out_bound))
+                outputs_bound.append(out_bound)
+
+            return (outputs_cls, outputs_bound)
+        else:
+            for as_stage in self.asb:
+                out_cls = as_stage(self.activation_asb(out_cls))
+
+            for br_stage in self.brb:
+                out_bound = br_stage(self.activation_brb(out_bound))
+
+            return (out_cls, out_bound)
+
+
+class ActionSegmentRefinementFramework_all(nn.Module):
+    """
+    this model predicts both frame-level classes and boundaries.
+    Args:
+        in_channel: 2048
+        n_feature: 64
+        n_classes: the number of action classes
+        n_layers: 10
+    """
+
+    def __init__(
+        self,
+        in_channel: int,
+        n_features: int,
+        n_classes: int,
+        n_stages: int,
+        n_layers: int,
+        n_stages_asb: Optional[int] = None,
+        n_stages_brb: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+
+        print("Using PG in all")
+        self.num_layers=n_layers
+        if not isinstance(n_stages_asb, int):
+            n_stages_asb = n_stages
+
+        if not isinstance(n_stages_brb, int):
+            n_stages_brb = n_stages
+
+        super().__init__()
+
+        self.conv_in = nn.Conv1d(in_channel, n_features, 1)
+
+        n_features1 = 64
+        n_features2 = 64
+
+        self.conv_dilated_1 = nn.ModuleList((
+            nn.Conv1d(n_features, n_features1, 3, padding=2**(self.num_layers-1-i), dilation=2**(self.num_layers-1-i))
+            for i in range(n_layers)
+        ))
+
+        self.conv_dilated_2 = nn.ModuleList((
+            nn.Conv1d(n_features, n_features2, 3, padding=2**i, dilation=2**i)
+            for i in range(n_layers)
+        ))
+
+        self.conv_fusion = nn.ModuleList((
+             nn.Conv1d(2*n_features, n_features, 1)
+             for i in range(n_layers)
+        ))
+
+        self.conv_cls = nn.Conv1d(n_features, n_classes, 1)
+        self.conv_bound = nn.Conv1d(n_features, 1, 1)
+        self.dropout = nn.Dropout()
+        self.conv_out = nn.Conv1d(n_features,n_classes, 1)
+        # action segmentation branch
+
+        asb = [
+            Prediction_Generation_wt(n_classes, n_features, n_features1, n_features2, n_classes, n_layers)
+            for _ in range(n_stages_asb - 1)
+        ]
+
+        # boundary regression branch
+        brb = [
+            Prediction_Generation_wt(1, n_features, n_features1, n_features2, 1, n_layers) for _ in range(n_stages_brb - 1)
+        ]
+
+        self.asb = nn.ModuleList(asb)
+        self.brb = nn.ModuleList(brb)
+
+        self.activation_asb = nn.Softmax(dim=1)
+        self.activation_brb = nn.Sigmoid()
+
+    def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        
         out = self.conv_in(x)
         for i in range(self.num_layers):
             f_in = out

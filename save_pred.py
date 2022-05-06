@@ -44,7 +44,7 @@ def predict(
     result_path: str,
     boundary_th: float,
 ) -> None:
-    save_dir = os.path.join(result_path, "predictions")
+    save_dir = os.path.join(result_path, "asrf_allwt_pg")
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
 
@@ -147,7 +147,7 @@ def main():
     model.to(device)
 
     # load the state dict of the model
-    state_dict_cls = torch.load(os.path.join(result_path, "final_model.prm"))
+    state_dict_cls = torch.load(os.path.join(result_path, "asrf_allwt_pg.prm"))
     model.load_state_dict(state_dict_cls)
 
     # save outputs
