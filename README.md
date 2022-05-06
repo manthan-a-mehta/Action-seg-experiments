@@ -109,6 +109,11 @@ Please run the following command. `[DATASET_DIR]` is the path to your dataset di
     python utils/convert_arr2img.py ./result/50salads/dataset-50salads_split1/predictions
     ```
 
+1. If you want to combine the predictions run to compare the visuals change the names of images that you want to compare inside combine_images.py with required config. Make sure to change the model name, give the correct model path and the name of folders where the images to compare are being stored.:
+
+    ```bash
+    python3 utils/combine_images.py "/home/balaji/Documents/code/RSL/asrf/result/gtea/dataset-gtea_split-1/" "S1_Tea_C1"
+    ```
 
 
 
